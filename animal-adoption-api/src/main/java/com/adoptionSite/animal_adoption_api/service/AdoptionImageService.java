@@ -23,19 +23,19 @@ public class AdoptionImageService {
 
     private String callAPI(String apiUrl) throws IOException {
         URL url = new URL(apiUrl);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection(); //abrindo conexão http com a url específica
+        connection.setRequestMethod("GET"); //solicitação get
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        String inputLine;
-        StringBuilder response = new StringBuilder();
+        BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream())); //InputStreamReader le o fluxo de entrada da conexão httpd
+        String inputLine; // armazena cada linha de entrada
+        StringBuilder response = new StringBuilder(); // criando objeto responde onde vai estar a resposta completa
 
-        while ((inputLine = in.readLine()) != null) {
+        while ((inputLine = in.readLine()) != null) { // lendo cada linha e anexa ao response até que não tenha mais linhas
             response.append(inputLine);
         }
         in.close();
 
-        return response.toString();
+        return response.toString(); // convertendo response em string antes de retornar
     }
 }
 
