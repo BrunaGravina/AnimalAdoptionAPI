@@ -1,28 +1,29 @@
 package com.adoptionSite.animal_adoption_api.service;
 
+import com.adoptionSite.animal_adoption_api.entity.Dog;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DogImageService {
-    private static final String API_URL = "https://api.thedogapi.com/v1/images/search";
-    private static final String API_KEY = "live_HyxHkP30DqC8v9pZ4ROSP7REL0YyD2h1XOKe8dtHHk5MpFXkaRZlv9kJgX1gL6dY";
+    private static final String API_URL = "https://api.thedogapi.com/v1/images/search?limit=4";
 
-    public String getRandomDogImageUrl() throws IOException {
-        try (CloseableHttpClient httpClient = HttpClients.createDefault()) {
-            HttpGet request = new HttpGet(API_URL + "?api_key=" + API_KEY);
-            try (CloseableHttpResponse response = httpClient.execute(request)) {
-                ObjectMapper mapper = new ObjectMapper();
-                JsonNode jsonNode = mapper.readTree(response.getEntity().getContent());
-                return jsonNode.get(0).get("url").asText();
-            }
-        }
+    @Autowired
+    private RestTemplate restTemplate;
+
+    public List<Dog> getRandomDogImageUrl() {
+        return restTemplate.getForObject(API_URL, ArrayList.class);
     }
+
 }
