@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adoção de Animais</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #A390E4;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .animal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background-color: white;
+            border: 1px solid black;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.089);
+            overflow: hidden;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .card img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .card h3 {
+            margin: 0;
+            padding: 3px;
+            background-color: white;
+            color: black;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            background-color: #826AED;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Animais para doação</h1>
+        <div id="animal-grid" class="animal-grid">
+        </div>
+        <button id="btn">Próximos Animais</button>
+    </div>
+    <script>
+        var tipo = "";
+        function loadTipo() {
+            tipo = localStorage.getItem("tipo");
+        }
+        loadTipo();
+        async function getCats() {
+            const response = await fetch('http://localhost:8080/adopt/cat', {
+                method: 'GET',
+                headers: {
+                    "content-type": "application/json"
+                }
+            });
+
+            var myJson = await response.json();
+            return myJson;
+        };
+
+        async function getDogs() {
+            const response = await fetch('http://localhost:8080/adopt/dog', {
+                method: 'GET',
+                headers: {
+                    "content-type": "application/json"
+                }
+            });
+
+            var myJson = await response.json();
+            return myJson;
+        };
+
+        function displayAnimals() {
+            const animalGrid = document.getElementById("animal-grid");
+            animalGrid.innerHTML = "";
+
+            if (tipo == "gato") {
+                selectedAnimals = getCats().then((cats) => {
+                    cats.forEach(cat => {
+                        const animalCard = document.createElement("div");
+                        animalCard.classList.add("card");
+
+                        animalCard.innerHTML = `<img src="${cat.url}" alt="cat" onclick="animalClick('gato')">`;
+                        animalGrid.appendChild(animalCard);
+                    })
+                });
+            }
+            else {
+                selectedAnimals = getDogs().then((dogs) => {
+                    dogs.forEach(dog => {
+                        const animalCard = document.createElement("div");
+                        animalCard.classList.add("card");
+
+                        animalCard.innerHTML = `<img src="${dog.url}" alt="dog" onclick="animalClick('cachorro')">`;
+                        animalGrid.appendChild(animalCard);
+                        console.log(tipo);
+                    })
+                });
+            }
+        }
+
+        function animalClick(tipo) {
+            alert(`Você escolheu um ${tipo}!`);
+        }
+        document.getElementById("btn").addEventListener("click", displayAnimals);
+
+        window.onload = displayAnimals;
+    </script>
+</body>
+
+</html>

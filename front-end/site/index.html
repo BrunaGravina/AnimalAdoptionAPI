@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #A390E4;
+            margin: 0;
+        }
+
+        .container {
+            width: 300px;
+            padding: 20px;
+            background-color: white;
+            border: 1px solid black;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .container h2 {
+            margin-top: 0;
+            text-align: center;
+        }
+
+        .group {
+            margin-bottom: 16px;
+        }
+
+        .group label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .group input,
+        .group select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .group button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+        <h2>Encontre seu Animal Ideal!</h2>
+        <form id="animal-form">
+
+            <div class="group">
+                <label for="tipo">Animal de preferencia</label>
+                <select id="tipo" name="tipo">
+                    <option value="" disabled selected></option>
+                    <option value="cachorro">Cachorro</option>
+                    <option value="gato">Gato</option>
+                </select>
+            </div>
+
+            <div class="group">
+                <label for="tela">Sua casa é telada?</label>
+                <select id="tela" name="tela">
+                    <option value="" disabled selected></option>
+                    <option value="sim">Sim</option>
+                    <option value="nao">Não</option>
+                </select>
+            </div>
+
+            <div class="group">
+                <label for="cidade">Cidade</label>
+                <select id="cidade" name="cidade">
+                    <option value="" disabled selected></option>
+                    <option value="sp">São Paulo</option>
+                    <option value="rj">Rio de Janeiro</option>
+                    <option value="grande">Grande SP</option>
+                </select>
+            </div>
+
+            <div class="group">
+                <label for="rg">RG</label>
+                <input type="text" id="rg" name="rg" placeholder="Digite seu RG" maxlength="12">
+            </div>
+
+            <div class="group">
+                <label for="cpf">CPF</label>
+                <input type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" maxlength="12">
+            </div>
+
+            <div class="group">
+                <label for="telefone">Telefone</label>
+                <input type="text" id="telefone" name="telefone" placeholder="Digite seu telefone" maxlength="12">
+            </div>
+
+            <div class="group">
+                <button type="submit" class="btn">Enviar</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('animal-form').addEventListener('submit', function (event) {
+            event.preventDefault();
+            const tipo = document.getElementById('tipo').value;
+            const idade = document.getElementById('tela').value;
+            const porte = document.getElementById('cidade').value;
+            const rg = document.getElementById('rg').value;
+            const cpf = document.getElementById('cpf').value;
+            const telefone = document.getElementById('telefone').value;
+
+            if (!tipo || !tela || !cidade || !rg || !cpf || !telefone) {
+                alert("Por favor, preencha todas as informações do formulário.");
+            } else {
+                alert("Formulário enviado! Entraremos em contato após a sua escolha de animal.");
+                window.location.href = 'animals.html';
+            }
+            localStorage.setItem("tipo", `${tipo}`)
+        });
+    </script>
+</body>
+
+</html>
